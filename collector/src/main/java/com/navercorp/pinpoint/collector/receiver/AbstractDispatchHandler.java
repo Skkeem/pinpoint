@@ -16,15 +16,15 @@
 
 package com.navercorp.pinpoint.collector.receiver;
 
-import com.navercorp.pinpoint.collector.handler.Handler;
-import com.navercorp.pinpoint.collector.handler.RequestResponseHandler;
-import com.navercorp.pinpoint.collector.handler.SimpleHandler;
-import com.navercorp.pinpoint.collector.util.AcceptedTimeService;
-
 import org.apache.thrift.TBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.navercorp.pinpoint.collector.handler.Handler;
+import com.navercorp.pinpoint.collector.handler.RequestResponseHandler;
+import com.navercorp.pinpoint.collector.handler.SimpleHandler;
+import com.navercorp.pinpoint.collector.util.AcceptedTimeService;
 
 /**
  * @author emeroad
@@ -46,6 +46,7 @@ public abstract class AbstractDispatchHandler implements DispatchHandler {
 
         // mark accepted time
         acceptedTimeService.accept();
+        
         // TODO consider to change dispatch table automatically
         SimpleHandler simpleHandler = getSimpleHandler(tBase);
         if (simpleHandler != null) {

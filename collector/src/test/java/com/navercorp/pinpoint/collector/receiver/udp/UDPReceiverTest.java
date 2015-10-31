@@ -23,7 +23,6 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketException;
 
-import org.apache.thrift.TBase;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -31,7 +30,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.navercorp.pinpoint.collector.receiver.DataReceiver;
-import com.navercorp.pinpoint.collector.receiver.DispatchHandler;
 
 /**
  * @author emeroad
@@ -42,23 +40,21 @@ public class UDPReceiverTest {
     @Test
     @Ignore
     public void startStop() {
+        DataReceiver receiver = null;
         try {
-            DataReceiver receiver = new BaseUDPReceiver("test", new DispatchHandler() {
+            receiver = new UDPReceiver("test", new PacketHandlerFactory() {
                 @Override
-                public void dispatchSendMessage(TBase<?, ?> tBase) {
-                }
-
-                @Override
-                public TBase dispatchRequestMessage(TBase<?, ?> tBase) {
-                    // TODO Auto-generated method stub
+                public PacketHandler createPacketHandler() {
                     return null;
                 }
-
-            }, "127.0.0.1", 10999, 1024, 1, 10);
-
+            }, "127.0.0.1", 10999, 1024, 1, 10, true);
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
+        } finally {
+            if (receiver!= null) {
+                receiver.shutdown();
+            }
         }
     }
 

@@ -66,10 +66,20 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
+<<<<<<< HEAD
             <version>2.5.0</version>
             <scope>test</scope>
         </dependency>
 
+=======
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <scope>test</scope>
+        </dependency>
+>>>>>>> 711ad91e7099317dd9bee10ea06b60cacf0678f6
     </dependencies>
 
     <build>
@@ -109,8 +119,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <!-- AbstractPinpointPluginTestSuite needs this to resolve 
-                        path of required jars -->
+                    <!-- AbstractPinpointPluginTestSuite needs this to resolve path of required jars -->
                     <useSystemClassLoader>false</useSystemClassLoader>
                 </configuration>
             </plugin>

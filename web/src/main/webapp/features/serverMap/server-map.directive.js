@@ -35,8 +35,8 @@
 	    }
 	});
 	
-	pinpointApp.directive('serverMapDirective', [ 'serverMapDirectiveConfig', 'ServerMapDaoService', 'AlertsService', 'ProgressBarService', 'SidebarTitleVoService', '$filter', 'ServerMapFilterVoService', 'encodeURIComponentFilter', 'filteredMapUtilService', '$base64', 'ServerMapHintVoService', '$timeout', '$location', 'helpContentTemplate', 'helpContentService',
-	    function (cfg, ServerMapDaoService, AlertsService, ProgressBarService, SidebarTitleVoService, $filter, ServerMapFilterVoService, encodeURIComponentFilter, filteredMapUtilService, $base64, ServerMapHintVoService, $timeout, $location, helpContentTemplate, helpContentService) {
+	pinpointApp.directive('serverMapDirective', [ 'serverMapDirectiveConfig', 'ServerMapDaoService', 'AlertsService', 'ProgressBarService', 'SidebarTitleVoService', '$filter', 'ServerMapFilterVoService', 'filteredMapUtilService', '$base64', 'ServerMapHintVoService', '$timeout', '$location', '$window', 'helpContentTemplate', 'helpContentService',
+	    function (cfg, ServerMapDaoService, AlertsService, ProgressBarService, SidebarTitleVoService, $filter, ServerMapFilterVoService, filteredMapUtilService, $base64, ServerMapHintVoService, $timeout, $location, $window, helpContentTemplate, helpContentService) {
 	        return {
 	            restrict: 'EA',
 	            replace: true,
@@ -158,8 +158,8 @@
 	                        callerRange: scope.oNavbarVoService.getCallerRange(),
 	                        calleeRange: scope.oNavbarVoService.getCalleeRange(),
 	                        period: period,
-	                        filter: encodeURIComponentFilter(filterText),
-	                        hint: hintText ? encodeURIComponentFilter(hintText) : false
+	                        filter: $window.encodeURIComponent(filterText),
+	                        hint: hintText ? $window.encodeURIComponent(hintText) : false
 	                    };
 	
 	                    if (filterText) {
@@ -786,6 +786,7 @@
 	                		$at($at.MAIN, $at.CLK_SEARCH_NODE);
 	                		scope.searchNodeIndex = 0;
 	                        scope.searchNodeList = oServerMap.searchNode( scope.searchNodeQuery );
+	                        jQuery(element).find(".search-result").show().find(".count").html("Result : " + scope.searchNodeList.length);
 	                    }
 	                };
 	                scope.clearSearchNode = function() {
@@ -794,19 +795,37 @@
 	                	scope.searchNodeIndex = 0;
 	                	scope.searchNodeQuery = "";
 	                	scope.searchNodeList = [];
+	                	jQuery(element).find(".search-result").hide();
 	                }
 	                scope.toggleShowAntStyleHint = function() {
 	                	scope.showAntStyleHint = !scope.showAntStyleHint; 
 	                };
 	                scope.moveThePast = function() {
-	                	scope.$emit("navbar.moveThePast");
+	                	scope.$emit("navbarDirective.moveThePast");
 	                	$serverMapTime.effect("highlight", { color: "#FFFF00" }, 1000);
 	                };
 	                scope.moveTheFuture = function() {
-	                	scope.$emit("navbar.moveTheFuture");
+	                	scope.$emit("navbarDirective.moveTheFuture");
 	                	$serverMapTime.effect("highlight", { color: "#FFFF00" }, 1000);
 	                };
-	                
+	                scope.toggleToolbar = function() {
+	                	var $toolbar = jQuery(element).find(".servermap-toolbar");
+	                	var $toolbarHandleSpan = jQuery(element).find(".servermap-toolbar-handle span");
+	                	
+	                	if ( parseInt($toolbar.css("top")) == -1 ) {
+	                		$toolbar.find(".search-result").hide();
+	                		$toolbar.animate({ top: -55 }, "fast", function() {
+	                			$toolbarHandleSpan.addClass("glyphicon-chevron-down").removeClass("glyphicon-chevron-up");
+	                		});
+	                	} else {
+	                		$toolbar.animate({ top: -1 }, "fast", function() {
+	                			if ( scope.searchNodeList.length > 0 ) {
+	                				$toolbar.find(".search-result").show();
+	                			}
+	                			$toolbarHandleSpan.addClass("glyphicon-chevron-up").removeClass("glyphicon-chevron-down");
+	                		});
+	                	}
+	                };
 	                jQuery('.serverMapTooltip').tooltipster({
                     	content: function() {
                     		return helpContentTemplate(helpContentService.servermap["default"]);

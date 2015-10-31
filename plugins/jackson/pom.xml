@@ -17,6 +17,10 @@
         <dependency>
             <groupId>com.navercorp.pinpoint</groupId>
             <artifactId>pinpoint-bootstrap</artifactId>
+<<<<<<< HEAD
+=======
+            <scope>provided</scope>
+>>>>>>> 711ad91e7099317dd9bee10ea06b60cacf0678f6
         </dependency>
         <dependency>
             <groupId>com.navercorp.pinpoint</groupId>

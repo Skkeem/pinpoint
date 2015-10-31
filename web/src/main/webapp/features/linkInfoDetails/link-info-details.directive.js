@@ -7,8 +7,8 @@
 	    maxTimeToShowLoadAsDefaultForUnknown:  60 * 60 * 12 // 12h
 	});
 	
-	pinpointApp.directive('linkInfoDetailsDirective', [ 'linkInfoDetailsDirectiveConfig', '$filter', 'ServerMapFilterVoService',  'filteredMapUtilService', 'humanReadableNumberFormatFilter', '$timeout', 'isVisibleService', 'ServerMapHintVoService', '$window',
-	    function (cfg, $filter, ServerMapFilterVoService, filteredMapUtilService, humanReadableNumberFormatFilter, $timeout, isVisibleService, ServerMapHintVoService, $window) {
+	pinpointApp.directive('linkInfoDetailsDirective', [ 'linkInfoDetailsDirectiveConfig', '$filter', 'ServerMapFilterVoService',  'filteredMapUtilService', '$timeout', 'isVisibleService', 'ServerMapHintVoService', '$window',
+	    function (cfg, $filter, ServerMapFilterVoService, filteredMapUtilService, $timeout, isVisibleService, ServerMapHintVoService, $window) {
 	        return {
 	            restrict: 'EA',
 	            replace: true,
@@ -98,6 +98,15 @@
 	                        scope.sourceApplicationName = link.sourceInfo.applicationName;
 	                        scope.sourceHistogram = link.sourceHistogram;
 	                        scope.fromNode = link.fromNode;
+
+	                        scope.serverCount = 0;
+	                        scope.errorServerCount = 0;
+	                        for( var p in scope.sourceHistogram ) {
+                        		scope.serverCount++;
+                        		if ( scope.sourceHistogram[p].Error > 0 ) {
+                        			scope.errorServerCount++;
+                        		}
+	                        }	
 	                    }
 	
 	                    scope.showLinkInfoDetails = true;
@@ -344,6 +353,9 @@
 	                    bShown = true;
 	                    element.show();
 	                };
+	                scope.showServerList = function() {
+                    	scope.$emit("serverListDirective.show", false, htLastLink, scope.oNavbarVoService);
+                    };
 	
 	                /**
 	                 * scope link order by name

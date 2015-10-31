@@ -40,7 +40,7 @@ import com.navercorp.pinpoint.test.plugin.PinpointPluginTestSuite;
  */
 @RunWith(PinpointPluginTestSuite.class)
 @PinpointAgent("agent/target/pinpoint-agent-" + Version.VERSION)
-@Dependency({ "org.apache.thrift:libthrift:[0.9.1,)", "org.apache.commons:commons-lang3:3.3.2", "log4j:log4j:1.2.16", "org.slf4j:slf4j-log4j12:1.5.8" })
+@Dependency({ "org.apache.thrift:libthrift:[0.9.1,)", "log4j:log4j:1.2.16", "org.slf4j:slf4j-log4j12:1.5.8" })
 public class ThriftThreadPoolServerIT extends EchoTestRunner<TThreadPoolServer> {
 
     @Override
@@ -49,11 +49,21 @@ public class ThriftThreadPoolServerIT extends EchoTestRunner<TThreadPoolServer> 
     }
     
     @Test
-    public void testRpcCall() throws Exception {
+    public void testSynchronousRpcCall_verifyServerTraces() throws Exception {
         // Given
         final String expectedMessage = "TEST_MESSAGE";
         // When
-        final String result = super.invokeEcho(expectedMessage);
+        final String result = super.invokeEcho(TraceVerificationTarget.SERVER, expectedMessage);
+        // Then
+        assertEquals(expectedMessage, result);
+    }
+    
+    @Test
+    public void testSynchronousRpcCall_verifyClientTraces() throws Exception {
+        // Given
+        final String expectedMessage = "TEST_MESSAGE";
+        // When
+        final String result = super.invokeEcho(TraceVerificationTarget.CLIENT, expectedMessage);
         // Then
         assertEquals(expectedMessage, result);
     }

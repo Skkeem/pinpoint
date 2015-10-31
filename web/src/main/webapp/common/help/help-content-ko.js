@@ -26,7 +26,7 @@
 			periodSelector: {
 				mainStyle: "",
 				title: "조회 시간 설정",
-				desc: "데이터조회 시간을 선택합니다.",
+				desc: "데이터 조회 시간을 선택합니다.",
 				category: [{
 					title: "[범례]",
 					items: [{
@@ -41,7 +41,7 @@
 		},
 		servermap : {
 			"default": {
-				mainStyle: "width:450px;",
+				mainStyle: "width:560px;",
 				title: "서버맵",
 				desc: "분산된 서버를 도식화 한 지도 입니다.",
 				category: [{
@@ -101,7 +101,7 @@
 					}]
 				},{
 					title: "[기능]",
-					image: "<img src='/images/help/scatter_01.png' width='350px' height='205px'>",
+					image: "<img src='/images/help/scatter_01.png' width='200px' height='125px'>",
 					items: [{
 						name: "<span class='glyphicon glyphicon-plus'></span>",
 						desc: "마우스로 영역을 드래그하여 드래그 된 영역에 속한 트랜잭션의 상세정보를 조회할 수 있습니다."
@@ -186,7 +186,7 @@
 				}]
 			},
 			nodeServers: {
-				mainStyle: "width:350px;",
+				mainStyle: "width:400px;",
 				title: "Server Information",
 				desc: "물리서버와 해당 서버에서 동작중인 서버 인스턴스의 정보를 보여줍니다.",
 				category: [{
@@ -204,10 +204,10 @@
 						name: "<button type='button' class='btn btn-default btn-xs'>Inspector</button>",
 						desc: "Pinpoint가 설치된 WAS의 상세한 정보를 보여줍니다."
 					},{
-						name: "<button type='button' class='btn btn-default btn-xs'><span class='glyphicon glyphicon-plus'></span></button>",
+						name: "<span class='glyphicon glyphicon-record' style='color:#3B99FC'></span>",
 						desc: "해당 인스턴스에서 처리된 트랜잭션 통계를 조회할 수 있습니다."
 					},{
-						name: "<button type='button' class='btn btn-danger btn-xs'><span class='glyphicon glyphicon-plus'></span></button>",
+						name: "<span class='glyphicon glyphicon-hdd' style='color:red'></span>",
 						desc: "에러를 발생시킨 트랜잭션이 포함되어있다는 의미입니다."
 					}]
 				}]
